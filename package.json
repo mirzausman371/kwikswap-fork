@@ -1,13 +1,13 @@
 {
   "name": "kwikswap-subgraph",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/graphprotocol/kwikswap-subgraph",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "codegen": "graph codegen --output-dir src/types/",
     "build": "graph build",
     "create-local": "graph create davekaj/kwikswap --node http://127.0.0.1:8020",
-    "deploy-local": "graph deploy davekaj/kwikswap --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8000",
+    "deploy-local": "graph deploy davekaj/kwikswap --debug --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "deploy": "graph deploy kwikswap/kwikswap-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --debug",
     "deploy-staging": "graph deploy $THE_GRAPH_GITHUB_USER/$THE_GRAPH_SUBGRAPH_NAME /Kwik`swap --ipfs https://api.staging.thegraph.com/ipfs/ --node https://api.staging.thegraph.com/deploy/",
     "watch-local": "graph deploy graphprotocol/Kwikswap1 --watch --debug --node http://127.0.0.1:8020/ --ipfs http://localhost:5001"
@@ -21,5 +21,8 @@
     "eslint-config-prettier": "^6.1.0",
     "prettier": "^1.18.2",
     "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "@types/node": "^14.14.37"
   }
 }

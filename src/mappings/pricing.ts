@@ -1,27 +1,30 @@
 /* eslint-disable prefer-const */
-import { Pair, Token, Bundle, LiquidityPosition } from '../types/schema'
+import { Pair, Token, Bundle } from '../types/schema'
 import { BigDecimal, Address, BigInt } from '@graphprotocol/graph-ts/index'
 import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD } from './helpers'
-import { log } from '@graphprotocol/graph-ts'
 
 const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-const USDC_WETH_PAIR = '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc' // created 10008355
-const DAI_WETH_PAIR = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11' // created block 10042267
-const USDT_WETH_PAIR = '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852' // created block 10093341
+const USDC_WETH_PAIR = '0x2bd89EDCC9130b113Da1cffF86ee103E1545Cc1b' // created 10008355
+const DAI_WETH_PAIR = '0xc1576448B8e9aD83abaDF38DffD4000BF51AC2f0' // created block 10042267
+const USDT_WETH_PAIR = '0xae933d0a8d630e30a2e035284e35f232f4590e33' // created block 10093341
 
 export function getEthPriceInUSD(): BigDecimal {
   // fetch eth prices for each stablecoin
   let daiPair = Pair.load(DAI_WETH_PAIR) // dai is token0
   let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token0
   let usdtPair = Pair.load(USDT_WETH_PAIR) // usdt is token1
-  let a = "a";
+  // debugger;
+  // console.log("daiPair ", daiPair );
+  // console.log("usdcPair ", usdcPair );
+  // console.log("usdtPair ", usdtPair );
+  // eval('console').log("usdtPair ", usdtPair)
+
   // all 3 have been created
   if (daiPair !== null && usdcPair !== null && usdtPair !== null) {
     let totalLiquidityETH = daiPair.reserve1.plus(usdcPair.reserve1).plus(usdtPair.reserve0)
     let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
     let usdcWeight = usdcPair.reserve1.div(totalLiquidityETH)
     let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH)
-    log.warning("totalLiquidityETH: {}", [totalLiquidityETH.toString()])
     return daiPair.token0Price
       .times(daiWeight)
       .plus(usdcPair.token0Price.times(usdcWeight))
